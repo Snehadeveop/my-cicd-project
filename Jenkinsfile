@@ -1,35 +1,30 @@
 pipeline {
     agent any
-    tools {
-        nodejs 'NodeJS' // Make sure NodeJS is installed in Jenkins
-    }
     stages {
-        stage('Checkout') {
+        stage('Clean Workspace') {
             steps {
-                script {
-                    // Directly check out the 'feature/add-docker' branch
-                    git branch: 'feature/add-docker', url: 'https://github.com/Snehadeveop/my-cicd-project.git'
-                }
+                cleanWs() // Clean the workspace to avoid any conflicts
             }
         }
-        stage('Build') {
+        stage('Checkout SCM') {
             steps {
-                // Verify the contents of the workspace
-                sh 'ls -la' // This helps confirm that package.json is present
-                // Install dependencies
+                checkout scm
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
                 sh 'npm install'
             }
         }
         stage('Docker Build') {
             steps {
-                // Build Docker image
                 sh 'docker build -t my-node-app .'
             }
         }
         stage('Docker Run') {
             steps {
-                // Run Docker container
-                sh 'docker run -d -p 8080:8080 my-node-app'
+                sh 'docker ps -q --filter "name=my-node-app" | xargs -r docker stop' // Stop any existing container
+                sh 'docker run -d -p 8081:8080 my-node-app' // Change to 8081 or another port
             }
         }
     }

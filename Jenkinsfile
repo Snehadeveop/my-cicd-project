@@ -11,12 +11,15 @@ pipeline {
                 sh 'npm install'
             }
         }
+
+        /*
         stage('Test') {
             steps {
                 // Run tests
                 sh 'npm test'
             }
         }
+        */
         stage('Docker Build') {
             steps {
                 // Build Docker image

@@ -1,32 +1,25 @@
 pipeline {
     agent any
     tools {
-        nodejs 'NodeJS' // Reference the name you gave Node.js in "Global Tool Configuration"
+        nodejs 'NodeJS' // Make sure NodeJS is installed in Jenkins
     }
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the specific branch that contains the Dockerfile
                 script {
+                    // Directly check out the 'feature/add-docker' branch
                     git branch: 'feature/add-docker', url: 'https://github.com/Snehadeveop/my-cicd-project.git'
                 }
             }
         }
         stage('Build') {
             steps {
+                // Verify the contents of the workspace
+                sh 'ls -la' // This helps confirm that package.json is present
                 // Install dependencies
                 sh 'npm install'
             }
         }
-
-        /*
-        stage('Test') {
-            steps {
-                // Run tests
-                sh 'npm test'
-            }
-        }
-        */
         stage('Docker Build') {
             steps {
                 // Build Docker image

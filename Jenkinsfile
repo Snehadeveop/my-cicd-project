@@ -1,5 +1,9 @@
 pipeline {
+    
     agent any
+     tools {
+        nodejs 'NodeJS' // Reference the name you gave Node.js in "Global Tool Configuration"
+    }
     stages {
         stage('Build') {
             steps {

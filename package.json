@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo 'No tests specified' && exit 0"  // No-op test script
+    "test": "echo 'No tests specified' && exit 0"  
   },
   "keywords": [],
   "author": "",
